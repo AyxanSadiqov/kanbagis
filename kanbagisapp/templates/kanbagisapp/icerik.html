@@ -1,0 +1,305 @@
+{% load staticfiles %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  {% for baslik in icerik %}
+    <title>{{ baslik.user }} - {{ baslik.province }}/{{ baslik.county }} {{ baslik.blood_group }}</title>
+  {% endfor %}
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <link href="{% static 'images/kan_icon.png' %}" rel="icon">
+  <link href="{% static 'img/kan.png' %}" rel="apple-touch-icon">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/venobox.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/anastyle.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/loaderstyle.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/home-slide.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip-hover.css' %}">
+<!--===============================================================================================-->
+
+  <style>
+      ::selection {
+        color: white;
+        background: red;
+      }
+      .paylasim {
+  			width: 97%;
+  			margin-bottom: 10px;
+        margin-left: 10px;
+        padding:8px;
+        border: 1px solid black;
+        border-radius: 5px;
+      }
+      .paylasimKan {
+  			width: 97%;
+        margin-left: 10px;
+        padding-top:16px;
+        padding-bottom:19px;
+        padding-right:10px;
+        padding-left:10px;
+        border: 1px solid black;
+        background-color: #DDE8FD;
+      }
+      .hover:hover{
+        background-color: #EDF1F1;
+      }
+      select{
+        width: 24%;
+        height: 30px;
+      }
+      option{
+        background-color: #f5f5f5;
+      }
+      .isa_error {
+        color: #D8000C;
+        background-color: #FFD2D2;
+  			width: 100%;
+  			margin-bottom: 10px;
+        padding:8px;
+        border-radius: 8px;
+      }
+  		.isa_success {
+        color: #4F8A10;
+        background-color: #DFF2BF;
+  			width: 100%;
+  			margin-bottom: 10px;
+        padding:8px;
+        border-radius: 8px;
+      }
+      /*page styling START*/
+      .bs-callout {
+          -moz-border-bottom-colors: none;
+          -moz-border-left-colors: none;
+          -moz-border-right-colors: none;
+          -moz-border-top-colors: none;
+          border-color: #eee;
+          border-image: none;
+          border-radius: 3px;
+          border-style: solid;
+          border-width: 1px 1px 1px 10px;
+          margin-bottom: 5px;
+          padding: 20px;
+          /*box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);*/
+      }
+      .bs-callout:last-child {
+          margin-bottom: 0px;
+      }
+      .bs-callout h4,
+      .bs-callout h5 {
+          margin-bottom: 10px;
+          margin-top: 0;
+          font-weight: 600;
+      }
+      .bs-callout-danger {
+          border-left-color: #d9534f;
+      }
+      .bs-callout-success {
+          border-left-color: #5DCF1F;
+      }
+      .bs-callout-danger h5{
+          color: #d9534f;
+      }
+      blockquote
+      {
+          font-size: 80% !important;
+          page-break-inside: avoid;
+          border: 2px solid #fff;
+          width: 90%;
+           -webkit-box-shadow: inset 5px 0px 0px 0px #555754, 4px 4px 4px 1px #888;
+              -mox-box-shadow: inset 5px 0px 0px 0px #555754, 4px 4px 4px 1px #888;
+               -ms-box-shadow: inset 5px 0px 0px 0px #555754, 4px 4px 4px 1px #888;
+                   box-shadow: inset 5px 0px 0px 0px #555754, 4px 4px 4px 1px #888;
+
+          padding: 10px 20px;
+          margin: 0 0 20px;
+          font-size: 17.5px;
+          border-left: none;
+      }
+      /*page styling END*/
+    </style>
+</head>
+<body>
+<!-- LOADER -->
+  <div id="preloader">
+  	<div class="preloader pulse">
+  		<i class="fa fa-heartbeat" aria-hidden="true"></i>
+  	</div>
+  </div>
+
+
+  <header id="header">
+    <div class="container">
+      <div id="logo" class="pull-left">
+        <a href="/home/" class="scrollto"><img src="{% static 'images/med.png' %}" ></a>
+      </div>
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="/home/">Ana Sayfa</a></li>
+          <li><a href="/about/">Hakkımızda</a></li>
+          <li><a href="/share/">Paylaşımda bulun</a></li>
+          {% if user.is_authenticated %}
+          <li class="buy-tickets"><a href="{% url 'profile' username=request.user %}">Profil</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <div class="container-fluid" style="margin-top: 10%">
+    <div class="row">
+      <div class="col-md-3" id="leftbox">
+        <div class="jumbotron">
+          <h4>Reklam Alanı</h4>
+          <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling
+              extra
+              attention to featured content or information.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6" id="middlebox">
+        {% for bilgi in icerik %}
+        <div style="background-color:#F9F9F9;">
+          {% if bilgi.choice == "kan veriyor" %}
+          <div class="bs-callout bs-callout-success">
+          {% else %}
+          <div class="bs-callout bs-callout-danger">
+          {% endif %}
+    				<h4>Başlık <img style="width:7%;pointer-events: none;" src="{% static "images/icerik.jpg" %}"></h4>
+            <p><a href="{% url 'profile' username=bilgi.user %}" class="qtip tip-top" data-tip="Profili görmek için tıklayın.">{{ bilgi.user|capfirst }}</a>, {{ bilgi.province }}/{{ bilgi.county }}'da {{ bilgi.date_range|date }} tarih aralığında {{ bilgi.blood_group }}
+              {% if bilgi.choice == "kan veriyor" %}
+              kan bağışında bulunmak istiyor.
+              {% else %}
+              kan arıyor.
+              {% endif %}
+            </p>
+    			   <blockquote>
+               <div class="row">
+                 <div class="col-md-4">
+                   <b>Kan arama nedeni:</b><br>
+                 </div>
+                 <div class="col-md-8">
+                   {{ bilgi.searching_reason }}<br>
+                 </div>
+               </div>
+               <div class="row">
+                 <div class="col-md-4">
+                   <b>İletişim adı:</b><br>
+                 </div>
+                 <div class="col-md-8">
+                   {{ bilgi.contact_name }}<br>
+                 </div>
+               </div>
+               <div class="row">
+                 <div class="col-md-4">
+                   <b>İletişim numarası:</b><br>
+                 </div>
+                 <div class="col-md-8">
+                   {{ bilgi.contact_number }}<br>
+                 </div>
+               </div>
+    				 </blockquote>
+             <p class="card-text"><small class="text-muted">Paylaşım tarihi - {{ bilgi.sharing_date|naturalday }} {% if bilgi.sharing_date|naturalday == "bugün" %}{{ bilgi.sharing_date|time }}{% endif %}</small></p>
+          </div>
+        </div>
+        <div align="right">
+          <span>Paylaş</span>
+          <a class="qtip tip-top" data-tip="Facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+          <a class="qtip tip-top" data-tip="Twitter" href="https://twitter.com/home?status=I'm%20going%20to%20learn%20to%20Code...%20Come%20build%20an%20web%20apsp%20with%20me!%20%23CFE%20and%20@justinmitchel%20{{ request.build_absolute_uri }}"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+          <a class="qtip tip-top" data-tip="Google+" href='https://plus.google.com/share?url={{ request.build_absolute_uri }}'><i class="fa fa-google-plus-square" aria-hidden="true"></i></a>
+          <a class="qtip tip-top" data-tip="LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url=http://swiftforentrepreneurs.com/&title=Be%20first%20%7C%20Join%20Swift%20for%20Entrepreneurs&summary=Swift%20for%20Entrepreneurs%20is%20a%20project-based%20programming%20course%20for%20nontechnical%20founders.%20We'll%20learn%20how%20to%20build%20iOS%20apps%20from%20scratch%20using%20Apple's%20new%20programming%20language:%20Swift.%20Be%20first%20and%20learn%20with%20me!&source={{ request.build_absolute_uri }}"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a>
+          <a class="qtip tip-top" data-tip="Reddit" href="http://www.reddit.com/submit?url={{ request.build_absolute_uri }}&title=Unlock%20to%20Learn%20Swift%20for%20Free!%20By%20Swift%20for%20Entrepreneurs.%20Made%20for%20Non%20Techincals."><i class="fa fa-reddit-square" aria-hidden="true"></i></a>
+        </div>
+        <!--<div id="favorite-section">
+          <a href="#">
+            <i class="fa fa-heart-o fa-lg"></i>
+          </a>
+        </div>-->
+        {% endfor %}
+      </div>
+
+      <div class="col-md-3" id="rightbox">
+        {% if user.is_authenticated %}
+          <div class="slideshow-container">
+            {% for right in homeRightInformation %}
+              {% if right.created_at|naturalday == "bugün" %}
+                <div class="mySlides">
+                  <q>{{ right.content }}</q>
+                  <p class="author">- {{ right.written_by }}</p>
+                </div>
+              {% elif right.created_at|naturalday != "bugün" %}
+                <div class="mySlides">
+                  <q></q>
+                  <p class="author">- </p>
+                </div>
+              {% endif %}
+            {% empty %}
+                <div class="mySlides">
+                  <q></q>
+                  <p class="author">- </p>
+                </div>
+            {% endfor %}
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+          </div>
+          <div class="dot-container"></div>
+        {% else %}
+          <div class="slideshow-container">
+            <div class="mySlides">
+              <q></q>
+              <p><a href="/register/">Kayıt Ol</a> yada <a href="/login/">Giriş Yap</a></p>
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+          </div>
+          <div class="dot-container"></div>
+        {% endif %}
+        <!--<section>
+          <div class="tabs">
+            <input id="tab1" type="radio" name="grp" checked="checked" />
+            <label for="tab1"><i class="fa fa-users"></i><span>Aktif<br>Olanlar</span></label>
+            <div style="height:100px;overflow-x:auto;">Aktif olan kullanicilar<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/</div>
+            <input id="tab2" type="radio" name="grp" />
+            <label for="tab2"><i class="fa fa-location-arrow"></i><span>Takip<br>ettiklerim</span></label>
+            <div style="height:100px;overflow:auto;">Takip ettiğim kullanıcılar<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/</div>
+          </div>
+        </section>-->
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!--===============================================================================================-->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/wow.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/venobox.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/custom.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/mainy.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script><!--=popup-->
+<!--===============================================================================================-->
+  <script src="{% static 'js/home-slide.js' %}"></script>
+<!--===============================================================================================-->
+</body>
+</html>

@@ -1,0 +1,4 @@
+<option value="">İlçe</option>
+{% for county in counties %}
+<option value="{{county.county_id}}">{{county.county_name}}</option>
+{% endfor %}

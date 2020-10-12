@@ -1,0 +1,241 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+	<title>Kayıt Ol</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<!--=slide==============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/flexslider.css' %}">
+<!--===============================================================================================-->
+<style>
+::selection {
+	color: white;
+	background: red;
+}
+.isa_warning {
+	color: #9F6000;
+	background-color: #FCF9F9;
+	border: 1px solid red;
+  border-radius: 2px;
+	width: 100%;
+}
+</style>
+</head>
+<body style="background-color: #999999;">
+
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="login100-more" style="background-image: url('{% static 'images/kan.jpg' %}');">
+				<div class="place">
+					<div class="flexslider">
+						<ul class="slides">
+							{% for bilgi in slide %}
+							<li>
+								<div class="agileits_w3layouts_welcome_grid">
+									<img src="{{ bilgi.image.url }}" alt="" class="img-responsive" />
+								</div>
+							</li>
+							{% empty %}
+							<li>
+								<div class="agileits_w3layouts_welcome_grid">
+									Henüz slide eklenmedi.
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
+				<form method="POST" id="UserProfileForm" data-counties-url="{% url 'ajax_load_counties' %}" action="{% url 'register' %}" class="login100-form validate-form">
+					<span class="login100-form-title p-b-20">
+						Kayıt Ol
+					</span>
+					Acil kan arıyorum &#187;<br><br>
+					<button onclick="location.href='/acil/'" type="button" class="btn btn-danger">ACİL</button>
+
+          {% csrf_token %}
+					{% if form.username.errors %}
+          <div class="isa_warning animated bounceIn" align=center>
+             <i class="fa fa-times-circle"></i>
+             Bu kullanıcı adında bir kullanıcı zaten mevcut.
+          </div>
+          {% endif %}
+					<div class="wrap-input100 validate-input" data-validate = "Kullanıcı adı gerekli">
+						<span class="label-input100">Kullanıcı Adı</span>
+						<input class="input100" type="text" name="username" placeholder="Kullanıcı adınız..."/>
+						<span class="focus-input100"></span>
+					</div>
+
+					{% if form.email.errors %}
+          <div class="isa_warning animated bounceIn" align=center>
+             <i class="fa fa-times-circle"></i>
+             E-Posta zaten mevcut.
+          </div>
+          {% endif %}
+					<div class="wrap-input100 validate-input" data-validate="Geçerli e-posta gerekli: örnek@abc.xyz">
+						<span class="label-input100">E-Posta</span>
+						<input class="input100" type="text" name="email" placeholder="E-Posta adresiniz..."/>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Ad gerekli">
+						<span class="label-input100">Ad</span>
+						<input class="input100" type="text" name="first_name" placeholder="Adınız..."/>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Soyad gerekli">
+						<span class="label-input100">Soyad</span>
+						<input class="input100" type="text" name="last_name" placeholder="Soyadınız..."/>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Telefon numarası gerekli">
+						<span class="label-input100">Telefon</span>
+						<input class="input100" type="number" name="phone" placeholder="Telefon numaranız..."/>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input101">
+						<span class="label-input100">İl</span>
+						<span class="input100" name="province">{{ profile_form.province }}</span>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input101">
+						<span class="label-input100">İlçe</span>
+						<span class="input100" name="county">{{ profile_form.county }}</span>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input101">
+						<span class="label-input100">Kan Grubu</span>
+						<span class="input100" name="blood_group">{{ profile_form.blood_group }}</span>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="wrap-input101 validate-input" data-validate="Doğum tarihi gerekli">
+						<span class="label-input100">Doğum tarihi</span>
+						<input class="input100" type="date" name="birth_date" value="2015-08-09"/>
+						<span class="focus-input100"></span>
+					</div>
+
+					{% if form.password2.errors %}
+          <div class="isa_warning animated bounceIn" align=center>
+             <i class="fa fa-times-circle"></i>
+             En az 8 karakterli şifre gerekli.
+          </div>
+          {% endif %}
+					<div class="wrap-input100 validate-input" data-validate = "En az 8 karakterli şifre gerekli">
+						<span class="label-input100">Şifre</span>
+						<input class="input100" type="password" name="password1" placeholder="*************"/>
+						<span class="focus-input100"></span>
+					</div>
+
+					{% if form.password2.errors %}
+          <div class="isa_warning animated bounceIn" align=center>
+             <i class="fa fa-times-circle"></i>
+             Şifre tekrarının aynı olduğundan emin olun.
+          </div>
+          {% endif %}
+					<div class="wrap-input100 validate-input" data-validate = "En az 8 karakterli şifre gerekli">
+						<span class="label-input100">Şifre Tekrar</span>
+						<input class="input100" type="password" name="password2" placeholder="*************"/>
+						<span class="focus-input100"></span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button type="submit" class="login100-form-btn">
+								Kaydol
+							</button>
+						</div>
+						<a href="/login/" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+							Giriş yap
+							<i class="fa fa-long-arrow-right m-l-5"></i>
+						</a>
+					</div>
+				</form>
+				<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+          $("#id_province").change(function(){
+            var url = $("#UserProfileForm").attr("data-counties-url"); // get the url of the 'load_counties'view
+            var provinceId = $(this).val();   // get the selected province id from the HTML input
+            $.ajax({                          // initialize an AJAX request
+              url: url,                       // set the url of the request (http://127.0.0.1:8000/ajax/load/)
+              data: {
+                'province': provinceId        // add the province id to the GET parameters
+              },
+              success: function(data){        // 'data' is the return of the 'load_counties' view function
+                $("#id_county").html(data);   // replace the contents of the county input with the data that came
+              }
+            });
+          });
+        </script>
+			</div>
+		</div>
+	</div>
+
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'js/main.js' %}"></script>
+<!--=slide==============================================================================================-->
+	<script src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
+	<script defer src="{% static 'js/jquery.flexslider.js' %}"></script>
+	<script type="text/javascript">
+		$(window).load(function(){
+		  $('.flexslider').flexslider({
+			animation: "slide",
+			start: function(slider){
+			  $('body').removeClass('loading');
+			}
+		  });
+		});
+	</script>
+<!--===============================================================================================-->
+
+</body>
+</html>

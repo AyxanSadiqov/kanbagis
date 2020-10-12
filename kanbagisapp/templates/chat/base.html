@@ -1,0 +1,46 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Kan Bağışı | Gerçek zamanlı mesajlaşma</title>
+    <link href="{% static 'images/kan_icon.png' %}" rel="icon">
+    <!--===============================================================================================-->
+      <link rel="stylesheet" type="text/css" href="{% static 'css/loaderstyle.css' %}">
+    <!--===============================================================================================-->
+      <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    {% include 'chat/css.html' %}
+</head>
+<body>
+
+  <!-- LOADER -->
+    <div id="preloader">
+    	<div class="preloader pulse">
+    		<i class="fa fa-heartbeat" aria-hidden="true"></i>
+    	</div>
+    </div>
+
+<div class='container'>
+    <div class='row border-bottom my-3 py-3'>
+        <div class='col-md-10'>
+            <h1 class='p-0 m-0'>Gerçek Zamanlı Mesajlaş</h1>
+            <!--{{ thread.room_group_name }}-->
+        </div>
+        <div class='col-md-2'>
+            ({{ thread.room_group_name }})
+        </div>
+    </div>
+{% block content %}
+{% endblock %}
+</div>
+
+
+{% include 'chat/js.html' %}
+{% block script %}
+{% endblock %}
+
+</body>
+</html>

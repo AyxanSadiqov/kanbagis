@@ -1,0 +1,767 @@
+{% load staticfiles %}
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Profil - {{ user.username|capfirst }}</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <link href="{% static 'images/kan_icon.png' %}" rel="icon">
+  <link href="{% static 'img/kan.png' %}" rel="apple-touch-icon">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/venobox.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/anastyle.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/loaderstyle.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip-hover.css' %}">
+<!--===============================================================================================-->
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    color: white;
+    background: red;
+  }
+  .isa_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    width: 100%;
+    margin-bottom: 10px;
+    padding:8px;
+    border-radius: 8px;
+  }
+  .isa_error {
+    color: #D8000C;
+    background-color: #FFD2D2;
+    width: 100%;
+    margin-bottom: 10px;
+    padding:8px;
+    border-radius: 8px;
+  }
+  /*page styling START*/
+  .bs-callout {
+      -moz-border-bottom-colors: none;
+      -moz-border-left-colors: none;
+      -moz-border-right-colors: none;
+      -moz-border-top-colors: none;
+      border-color: #eee;
+      border-image: none;
+      border-radius: 3px;
+      border-style: solid;
+      border-width: 1px 1px 1px 5px;
+      margin-bottom: 5px;
+      padding: 20px;
+  }
+  .bs-callout:last-child {
+      margin-bottom: 0px;
+  }
+  .bs-callout h4,
+  .bs-callout h5 {
+      margin-bottom: 10px;
+      margin-top: 0;
+      font-weight: 600;
+  }
+  .bs-callout-danger {
+      border-left-color: #d9534f;
+  }
+  .bs-callout-success {
+      border-left-color: #5DCF1F;
+  }
+  .bs-callout-danger h5{
+      color: #d9534f;
+  }
+  /*page styling END*/
+  /* Privacy checkbox START */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  .slider.round {
+    border-radius: 34px;
+  }
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  /* Privacy checkbox END */
+  .shadow{
+    border-radius: 5px;
+    -webkit-transition: border-radius 0.2s, box-shadow 0.2s; /* HOVER OFF */
+  }
+  .shadow:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    border-radius: 15px;
+    -webkit-transition: border-radius 0.2s, box-shadow 0.2s; /* HOVER ON */
+  }
+  /* Kullanilmiyor daha START */
+  .profile-bar{
+    -webkit-transition: width 0.4s;
+  }
+  .profile-bar:hover{
+    width: 100px;
+    -webkit-transition: width 0.4s;
+  }
+  /* Kullanilmiyor daha END */
+  /* Profile update button START */
+  .guncelle span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  .guncelle span:after {
+    content: '\267B';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  .guncelle:hover span {
+    padding-right: 25px;
+  }
+  .guncelle:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+  /* Profile update button END */
+  /* Heart beat animation START */
+  .heart {
+  	font-size: 15px;
+  	animation: beat .5s infinite alternate;
+  	transform-origin: 1px;
+  }
+  @keyframes beat{
+  	to { transform: scale(1.4); }
+  }
+  /* Heart beat animation END */
+  .button_outline{
+    outline:none !important;
+  }
+  .home_form{
+    border: 1px solid #3197CA;
+    padding: 10px;
+    border-top-left-radius: 25px;
+    background-color: #FAFAFA;
+  }
+  .popover-title{
+    text-align: center;
+  }
+  .popover-content{
+    text-align: center;
+    color: #9B9B9B;
+  }
+  .unstyle-button{
+    border: none;
+    padding: 0;
+    background: none;
+    outline:none !important;
+  }
+  .match{
+    color: #3A61FF;
+    width: 220px;
+    border: 1px solid #3A61FF;
+    border-radius: 3px;
+    transition-duration: 0.3s;
+	cursor: cell;
+  }
+  .match:hover{
+    color: white;
+    background-color: #3A61FF;
+    box-shadow: 2px 3px #888888;
+  }
+  /* confirmed user START */
+  .effect-shine:hover {
+    -webkit-mask-image: linear-gradient(-75deg, rgba(0,0,0,.6) 30%, #000 50%, rgba(0,0,0,.6) 70%);
+    -webkit-mask-size: 200%;
+    animation: shine 1s infinite;
+  }
+  @-webkit-keyframes shine {
+    from {
+      -webkit-mask-position: 150%;
+    }
+    to {
+      -webkit-mask-position: -50%;
+    }
+  }
+  /* confirmed user END */
+</style>
+</head>
+
+<body>
+  <!-- LOADER -->
+    <div id="preloader">
+    	<div class="preloader pulse">
+    		<i class="fa fa-heartbeat" aria-hidden="true"></i>
+    	</div>
+    </div>
+
+
+    <header id="header">
+      <div class="container">
+        <div id="logo" class="pull-left">
+          <a href="/home/" class="scrollto"><img src="{% static 'images/med.png' %}" ></a>
+        </div>
+        <nav id="nav-menu-container">
+          <ul class="nav-menu">
+            <li><a href="/home/">Ana Sayfa</a></li>
+            <li><a href="/about/">Hakkımızda</a></li>
+            <li><a href="/share/">Paylaşımda bulun</a></li>
+            {% if user.is_authenticated %}
+            <li class="buy-tickets"><a href="{% url 'profile' username=request.user %}">Profil</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <br><br><br><br><br>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card shadow">
+            <img class="card-img-top" src="{% static 'images/profile/profile_pic2.png' %}" style="pointer-events: none;" alt="Profil fotoğrafı">
+            <!--<img class="card-img-top" src="{% static 'images/gif/ekg.gif' %}" alt="Card image cap"> EKG gif profil resmi olabilir-->
+            <div class="card-body">
+              <h5 class="card-title">{{ user.username }}
+                {% if user.userprofile.informed == True %}
+                  <button class="unstyle-button" title="Bilgili kullanıcı" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="bilginin anahtarı artık sende"><i class="fa fa-key" style="color:#3197CA;" aria-hidden="true"></i></button>
+                {% endif %}
+                {% if user.is_superuser %}
+                  <sup><span class="badge badge-pill badge-danger">Admin</span></sup>
+                {% endif %}</h5>
+                {% if user == request.user %}
+                  <button type="button" class="btn btn-info btn-block button_outline">{{user.email}}</button>
+                {% else %}
+                  <button id="eposta" type="button" class="btn btn-info btn-block button_outline">E-Posta göster</button>
+                  {% if not user.first_name and user != request.user %}
+                    <br><button disabled type="button" class="btn btn-outline-danger btn-block qtip tip-bottom button_outline" data-tip="Acil kullanıcı ile sohbet başlatamazsınız.">Sohbet başlat <i class="fa fa-comments"></i></button>
+                  {% elif request.user.first_name and request.user.last_name %}
+                    <br><button onclick="location.href='/messages/{{ user.username }}/'" type="button" class="btn btn-outline-danger btn-block button_outline">Sohbet başlat <i class="fa fa-comments"></i></button>
+                  {% else %}
+                    <br><button disabled type="button" class="btn btn-outline-danger btn-block qtip tip-bottom button_outline" data-tip="Profiliniz acil kayıt ile oluşturulduğu için sohbet başlatamazsınız.">Sohbet başlat <i class="fa fa-comments"></i></button>
+                  {% endif %}
+                {% endif %}
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Son giriş {% if user.last_login == None %}yapılmadı{% else %}{{ user.last_login|naturaltime }}{% endif %}</small>
+            </div>
+          </div><br>
+          {% if messages %}
+          {% for messages in messages %}
+          <div class="isa_success" align=center>
+             <i class="fa fa-check"></i>
+             {{messages}}
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          {% if u_form.username.errors %}
+          <div class="isa_error" align=center>
+             <i class="fa fa-times-circle"></i>
+             Bu kullanıcı adında bir kullanıcı zaten mevcut.
+          </div>
+          {% endif %}
+
+          {% if user == request.user %}
+          <button onclick="location.href='/logout/'" type="button" class="btn btn-danger btn-block">Çıkış Yap</button><br>
+          {% endif %}
+
+        </div>
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-8">
+              {% if user.first_name and user.last_name %}
+                <b>{{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</b>
+                {% if user.userprofile.confirmed == True %}
+                  <i class="fa fa-check-circle-o effect-shine" style="color:#259EF1;" aria-hidden="true"></i>
+                {% endif %}
+                - <meter id="disk-tam" value="1" class="qtip tip-right" data-tip="Tam profil - 100%">100%</meter>
+              {% else %}
+                Anonim <a href="#acil"><span class="badge badge-danger qtip tip-bottom" data-tip="'Acil kayıt' ile giriş yapıldı">ACİL</span></a>
+                - <meter id="disk-acil" value="0.6" class="qtip tip-right" data-tip="Profil tam değil - 60%">60%</meter>
+              {% endif %}
+              {% if user == request.user %}
+                <p style="color: #818182;">Profilinize hoş geldiniz.</p>
+              {% else %}
+                  {% for match in bilgilerim %}
+                    {% if match.blood_group == request.user.userprofile.blood_group and match.province == request.user.userprofile.province and match.county == request.user.userprofile.county and match.birth_date == request.user.userprofile.birth_date %}
+                      <div class="match" style="font-size:12px;" align="center">Bu kullanıcı ile <b>%100</b> eşleşiyorsunuz</div>
+                    {% elif match.blood_group == request.user.userprofile.blood_group and match.province == request.user.userprofile.province and match.county == request.user.userprofile.county %}
+                      <div class="match" style="font-size:12px;" align="center">Bu kullanıcı ile <b>%90</b> eşleşiyorsunuz</div>
+                    {% elif match.blood_group == request.user.userprofile.blood_group and match.province == request.user.userprofile.province %}
+                      <div class="match" style="font-size:12px;" align="center">Bu kullanıcı ile <b>%75</b> eşleşiyorsunuz</div>
+                    {% elif match.blood_group == request.user.userprofile.blood_group %}
+                      <div class="match" style="font-size:12px;" align="center">Bu kullanıcı ile <b>%55</b> eşleşiyorsunuz</div>
+                    {% elif match.province == request.user.userprofile.province %}
+                      <div class="match" style="font-size:12px;" align="center">Bu kullanıcı ile <b>%20</b> eşleşiyorsunuz</div>
+                    {% else %}
+                      <div class="match" style="font-size:12px;" align="center">Bu kullanıcı ile eşleşmiyorsunuz</div>
+                    {% endif %}
+                  {% endfor %}
+                <p style="color: #818182;">Profil bilgileri.</p>
+              {% endif %}
+            </div>
+            {% if user == request.user %}
+            <div class="col-md-4">
+              Rozetleriniz:<br>
+              {% for rozet in paylasimSayi|make_list %}
+                {% if rozet < "3" %}
+                  <p style="color:#818182; font-size:12px;"><em>Henüz rozet kazanamadınız..</em></p>
+                {% endif %}
+                {% if rozet >= "3" %}
+                  <span class="badge badge-pill badge-warning">3-lü paylaşım</span>
+                {% endif %}
+                {% if rozet >= "5" %}
+                  <span class="badge badge-pill badge-success">5-li paylaşım</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+            {% else %}
+            <div class="col-md-4">
+              Kullanıcı rozetleri:<br>
+              {% for rozet in paylasimSayi|make_list %}
+                {% if rozet < "3" %}
+                  <p style="color:#818182; font-size:12px;"><em>Kullanıcı henüz rozet kazanamadı..</em></p>
+                {% endif %}
+                {% if rozet >= "3" %}
+                  <span class="badge badge-pill badge-warning">3-lü paylaşım</span>
+                {% endif %}
+                {% if rozet >= "5" %}
+                  <span class="badge badge-pill badge-success">5-li paylaşım</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+          <ul class="nav nav-tabs">
+            <li class="active">{% if user == request.user %}<a data-toggle="tab" href="#home">Bilgilerim</a>{% else %}<a data-toggle="tab" href="#home">Bilgiler</a>{% endif %}</li>
+            <li><a data-toggle="tab" href="#menu1">{% if user == request.user %}Mesajlarım{% else %}Mesaj bırak{% endif %}</a></li>
+            <li><a data-toggle="tab" href="#menu2">{% if user == request.user %}Paylaşımlarım{% else %}Paylaşımlar{% endif %}</a></li>
+            {% if user == request.user %}
+            <li><a data-toggle="tab" href="#menu3">Bilgilerimi düzenle</a></li>
+            <li><a data-toggle="tab" href="#menu4">Kaydettiklerim</a></li>
+            {% endif %}
+          </ul>
+
+          <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+              {% if user == request.user %}<h3>Kullanıcı bilgilerim</h3>{% else %}<h3>Kullanıcı bilgileri</h3>{% endif %}
+                <div class="row">
+                  <div class="col-md-3">
+                      <label>Kullanıcı adı</label>
+                  </div>
+                  <div class="col-md-3">
+                      <p>{{ user.username }}</p>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Ad</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ user.first_name|default:"Belirtilmemiş" }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Soyad</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ user.last_name|default:"Belirtilmemiş" }}</p>
+                    </div>
+                </div>
+                {% for bilgi in bilgilerim %}
+                {% if bilgi.privacy != True %}
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Telefon</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ bilgi.phone|default:"Belirtilmemiş" }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Kan grubu</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ bilgi.blood_group|default:"Belirtilmemiş" }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>İl</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ bilgi.province|default:"Belirtilmemiş" }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>İlçe</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ bilgi.county|default:"Belirtilmemiş" }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Doğum tarihi</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ bilgi.birth_date|naturalday|default:"Belirtilmemiş" }}</p>
+                    </div>
+                </div>
+                {% else %}
+                  {% if user == request.user %}
+                    <div style="width:31%" class="alert alert-info" role="alert">
+                      Kullanıcı profiliniz gizli.
+                      <span class="qtip tip-bottom" data-tip="Profiliniz gizli olduğunda, diğer kullanıcılar sizinle iletişime geçemeyebilir."><i class="fa fa-question-circle-o" style="font-size:20px"></i></span>
+                    </div>
+                  {% else %}
+                    <div style="width:31%" class="alert alert-info" role="alert">
+                      Kullanıcı profili gizli.
+                    </div>
+                  {% endif %}
+                {% endif %}
+                {% if not user.first_name and user != request.user %}
+                  <div class="alert alert-info" role="alert">
+                    Kullanıcı "acil kayıt" ile siteye kayıt oldu. Bilgilerini tamamlamadığı sürece sizinle iletişime geçemez.
+                    <li>Kullanıcıya <a data-toggle="tab" href="#menu1">mesaj bırak</a>arak hesabını tamamlamasını söyleyebilirsiniz.</li>
+                  </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div id="menu1" class="tab-pane fade">
+              {% if user == request.user %}<h3>Özel mesajlarım</h3>{% else %}<h3>Özel kullanıcı mesajı</h3>{% endif %}
+              <div class="row">
+                {% if user == request.user %}
+                {% for msg in message %}
+                <div class="col-md-6">
+                  <div class="card border-secondary mb-3 shadow" style="max-width: 32rem;font-size:15px;">
+                    <div class="card-header">Gönderen - <a href="{% url 'profile' username=msg.sender %}" class="qtip tip-top" data-tip="Profili görmek için tıklayın.">{{ msg.sender }}</a></div>
+                    <div class="card-body text-secondary">
+                      <p class="card-text">{{ msg.message }}</p>
+                    </div>
+                    <div class="card-footer text-secondary">
+                      Gönderim zamanı - {{ msg.created_at|naturalday }} {% if msg.created_at|naturalday == "bugün" %}{{ msg.created_at|time }}{% endif %}
+                    </div>
+                  </div>
+                </div>
+                {% empty %}
+                  &emsp;Kimse size özel mesaj göndermedi...
+                {% endfor %}
+                <!--bu qisme bax duzelt-->
+                {% elif request.user.first_name and request.user.last_name %}
+                  <div class="col-md-7">
+                    <ul style="font-size:14px;">
+                      <li>
+                        <p>Kullanıcıya E-Posta veya Telefon numarasından ulaşamıyorsanız mesaj bırakabilirsiniz.</p>
+                      </li>
+                      <li>
+                        <p>Göndereceğiniz mesajlar özel mesajlar olup, kimse tarafından görüntülenemez.</p>
+                      </li>
+                      <li>
+                        <p>Site içerisinden kullanıcıyla iletişime geçmek için mesaj bırakın.</p>
+                      </li>
+                      <li>
+                        <p>Kullanıcının sizinle iletişime geçmesini istiyorsanız mesajda telefon numaranızı belirtebilirsiniz.</p>
+                      </li>
+                      <li>
+                        <p><b>Kullanıcı siteye giriş yaptığında gönderdiğiniz mesaj(lar)ı görebilecek.</b></p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-md-5">
+                    <form method="POST">
+                      {% csrf_token %}
+                      <textarea style="resize:vertical;min-height:100px;max-height:270px;" class="form-control" placeholder="Mesajınız.." rows="6" name="message" required></textarea>
+                      <span style="font-size:13px;color: #818182;">- max 500 karakter</span>
+                      <button type="submit" class="btn btn-primary btn-block button_outline">Mesaj bırak</button>
+                    </form>
+                  </div>
+                {% else %}
+                  &emsp;<div class="alert alert-info" role="alert">
+                    Kullanıcı profiliniz <b>acil kayıt</b> ile oluşturuldu.<br>
+                    Birine özel mesaj gönderebilmeniz için ilk önce <a data-toggle="tab" href="{% url 'profile' username=request.user %}/#menu3">profil bilgilerinizi</a> tamamlamanız gerek.
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <div id="menu2" class="tab-pane fade">
+              {% if user == request.user %}<h3>Paylaşımlarım</h3>{% else %}<h3>Kullanıcı paylaşımları</h3>{% endif %}
+              {% for paylasim in paylasimlarim %}
+              <div class="hover">
+                {% if paylasim.choice == "kan veriyor" %}
+                <div class="bs-callout bs-callout-success">
+                {% else %}
+                <div class="bs-callout bs-callout-danger">
+                {% endif %}
+                  <div class="row">
+                    <div class="col-md-3">
+                      {{ paylasim.user }}
+                    </div>
+                    <div class="col-md-3">
+                      {{ paylasim.province }}'da
+                    </div>
+                    <div class="col-md-3" align="center">
+                      {{ paylasim.blood_group }}
+                    </div>
+                    <div class="col-md-3">
+                    &emsp;<a href="{% url 'icerik' id=paylasim.id %}">{{ paylasim.choice }}...</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% empty %}
+                {% if user == request.user %}
+                  Henüz paylaşımda bulunmadınız...
+                {% else %}
+                  Kullanıcı henüz paylaşımda bulunmadı...
+                {% endif %}
+              {% endfor %}
+
+              {% if user == request.user %}
+                {% for sayi in paylasimSayi|make_list %}
+                  {% if sayi == "0" %}
+                  {% else %}
+                    <small class="text-muted">{{ sayi }} adet paylaşımınız var.</small>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+
+              {% if user == request.user and user.userprofile.informed == True %}
+                <br><br>
+                <div class="row home_form">
+                  <div class="col-md-5">
+                    <form method="POST">
+                      {% csrf_token %}
+                      <small class="text-muted">Kim tarafından yazıldı</small>
+                      <input class="form-control" name="written_by" required>
+                      <small class="text-muted">İçerik</small>
+                      <textarea style="resize:vertical;min-height:80px;max-height:150px;" class="form-control" rows="5" name="content" required></textarea>
+                      <span style="font-size:13px;color: #818182;">- max 150 karakter</span>
+                      <button type="submit" class="btn btn-info btn-block button_outline">Paylaş</button>
+                    </form>
+                  </div>
+                  <div class="col-md-7">
+                    <ul style="font-size:14px;">
+                      <li>
+                        <p>Bu özellik sadece sizin gibi <b>bilgili kullanıcılar</b> için açıktır.</p>
+                      </li>
+                      <li>
+                        <p>Paylaşımınız 'Ana Sayfa'nın sağ üst köşesinde görülecek.</p>
+                      </li>
+                      <li>
+                        <p>Her paylaşımın kendi zamanı olup, paylaşıldığı günün sonunda kaybolacaktır.</p>
+                      </li>
+                      <li>
+                        <p>Asılsız paylaşımlar yaptığınız tespit edilirse hesabınız askıya alınacaktır.</p>
+                      </li>
+                      {% for sayi in homepaylasimSayi|make_list %}
+                        {% if sayi == "0" %}
+                          <div align="right"><small class="text-muted">Henüz paylaşım yapmadınız.</small></div>
+                        {% else %}
+                          <div align="right"><small class="text-muted">{{ sayi }} paylaşım yaptınız</small></div>
+                        {% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              {% endif %}
+
+            </div>
+            <div id="menu3" class="tab-pane fade">
+              <h3>Kullanıcı bilgilerimi düzenle</h3>
+              <form method="POST" id="UserProfileForm" data-counties-url="{% url 'ajax_load_counties' %}">
+                {% csrf_token %}
+                <div class="col-md-2" align=right>
+                  <b>Kullanıcı adı:</b><br><br>
+                  <b>Ad:</b><br><br>
+                  <b>Soyad:</b><br><br>
+                  <b>Gizlilik:</b>
+                </div>
+                <div class="col-md-4">
+                  {{ u_form.username }}<br><br>
+                  {{ u_form.first_name }}<br><br>
+                  {{ u_form.last_name }}<br><br>
+                  {% if user.userprofile.privacy != True %}
+                  <label class="switch">
+                    <input type="checkbox" name="privacy">
+                    <span class="slider round"></span>
+                  </label>
+                  <span class="qtip tip-bottom" data-tip="Gizlilik etkinleştirildiğinde, gerekli profil bilgileriniz gizlenir."><i class="fa fa-question-circle-o" style="font-size:20px"></i></span>
+                  {% else %}
+                  <label class="switch">
+                    <input type="checkbox" name="privacy" checked>
+                    <span class="slider round"></span>
+                  </label>
+                  <span class="qtip tip-bottom" data-tip="Gizlilik etkinleştirildiğinde, gerekli profil bilgileriniz gizlenir."><i class="fa fa-question-circle-o" style="font-size:20px"></i></span>
+                  {% endif %}
+                </div>
+                <div class="col-md-2" align=right>
+                  <b>Telefon:</b><br><br>
+                  <b>Kan grubu:</b><br><br>
+                  <b>İl:</b><br><br>
+                  <b>İlçe:</b><br><br>
+                  <b>Doğum tarihi:</b>
+                </div>
+                <div class="col-md-4">
+                  {{ p_form.phone }}<br><br>
+                  {{ p_form.blood_group }}<br><br>
+                  {{ p_form.province }}<br><br>
+                  {{ p_form.county }}<br><br>
+                  {{ p_form.birth_date }}<br><br>
+                  <p><button type="submit" class="btn btn-primary btn-block guncelle button_outline"><span>Güncelle</span></button>
+                </div>
+              </form>
+              <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+              <script>
+                $("#id_province").change(function(){
+                  var url = $("#UserProfileForm").attr("data-counties-url"); // get the url of the 'load_counties'view
+                  var provinceId = $(this).val();   // get the selected province id from the HTML input
+                  $.ajax({                          // initialize an AJAX request
+                    url: url,                       // set the url of the request (http://127.0.0.1:8000/ajax/load/)
+                    data: {
+                      'province': provinceId        // add the province id to the GET parameters
+                    },
+                    success: function(data){        // 'data' is the return of the 'load_counties' view function
+                      $("#id_county").html(data);   // replace the contents of the county input with the data that came
+                    }
+                  });
+                });
+              </script>
+
+              <!--<form method="POST">
+                {% csrf_token %}
+                {{ b_form }}
+                <p><button type="submit" class="btn btn-primary btn-block">Güncelle</button>
+              </form>-->
+              bilgilendirme olabilir
+            </div>
+            <div id="menu4" class="tab-pane fade">
+              <h3>Kaydettiğim paylaşımlar</h3>
+              {% for fav in favorite %}
+                <p><a href="{% url 'icerik' id=fav.id %}">{{ fav.user }}</a> isimli kullanıcının paylaşımını kaydettiniz.</p>
+              {% endfor %}
+            </div>
+          </div>
+          <hr>
+          {% if user == request.user %}
+            <p style="color: #818182;">Bildirimleriniz:</p>
+            <div class="row">
+              {% if not user.first_name %}
+              <div id="acil" class="col-md-6">
+                <div class="card border-danger shadow">
+                  <div class="card-body">
+                    <h5 class="card-title">Acil kayıt</h5>
+                    <p class="card-text">Siteye acil kayıt kullanarak giriş yaptınız. Bilgilerinizi tamamlamadığınız sürece hiçbir kullanıcı ile iletişime geçemezsiniz. Size gerekli işlemleri yapdıktan sonra bilgilerinizi "<a data-toggle="tab" href="#menu3">bilgilerimi düzenle</a>" kısmından tamamlamanızı rica ederiz.</p>
+                    <p class="card-text"><small class="text-muted">Site yönetimi</small></p>
+                  </div>
+                </div><br>
+              </div>
+              {% endif %}
+              {% for not in pNotifications %}
+              <div class="col-md-6">
+                {% if not.choice == "info" %}
+                <div class="card border-info shadow">
+                {% elif not.choice == "success" %}
+                <div class="card border-success shadow">
+                {% elif not.choice == "alert" %}
+                <div class="card border-danger shadow">
+                {% endif %}
+                  <div class="card-body">
+                    <h5 class="card-title">{{ not.header }}</h5>
+                    <p class="card-text">{{ not.body }}</p>
+                    <p class="card-text"><small class="text-muted">{{ not.footer }}</small></p>
+                  </div>
+                </div><br>
+              </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <script>
+    document.getElementById("eposta").addEventListener("click", showEmail);
+
+    function showEmail() {
+      document.getElementById("eposta").innerHTML = "{{user.email}}";
+    }
+    </script>
+
+    <script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
+    </script>
+<!--===============================================================================================-->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/wow.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/venobox.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/custom.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/mainy.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+</body>
+</html>

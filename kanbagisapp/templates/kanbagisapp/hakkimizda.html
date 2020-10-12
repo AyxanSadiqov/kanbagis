@@ -1,0 +1,293 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kan Bağışı | Hakkımızda</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <link href="{% static 'images/kan_icon.png' %}" rel="icon">
+  <link href="{% static 'img/kan.png' %}" rel="apple-touch-icon">
+<!--===============================================================================================-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"><!--care-deki iconlar vendordaki bootstrap.min.css-de calismiyor-->
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/venobox.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/anastyle.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/hakkimizda.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/loaderstyle.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+
+<style>
+  html{
+    scroll-behavior: smooth;
+  }
+</style>
+</head>
+
+<body>
+<!-- LOADER -->
+  <div id="preloader">
+  	<div class="preloader pulse">
+  		<i class="fa fa-heartbeat" aria-hidden="true"></i>
+  	</div>
+  </div>
+
+  <header id="header">
+    <div class="container">
+      <div id="logo" class="pull-left">
+        <a href="/home/" class="scrollto"><img src="{% static 'images/med.png' %}" ></a>
+      </div>
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li><a href="/home/">Ana Sayfa</a></li>
+          <li class="menu-active"><a href="/about/">Hakkımızda</a></li>
+          <li><a href="/share/">Paylaşımda bulun</a></li>
+          {% if user.is_authenticated %}
+          <li class="buy-tickets"><a href="{% url 'profile' username=request.user %}">Profil</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section id="intro">
+    <div class="intro-container wow fadeIn">
+      <h1 class="mb-4 pb-0">AMAÇ<br><span>NASIL </span> KULLANILIR?</h1>
+      <p class="mb-4 pb-0">Kan Bağış Sitesi </p>
+      <a href="https://www.youtube.com/watch?v=oDEQ9Y6X0i0" class="venobox play-btn mb-4" data-vbtype="video"
+        data-autoplay="true"></a>
+      <a href="#nasil" class="about-btn scrollto">Nasıl Kullanılır?</a>
+    </div>
+  </section>
+
+  <!-- services -->
+<div>
+	<div class="container">
+    <br id="nasil"><br>
+		<h3 class="title"><br>Servislerimiz</h3>
+		<div>
+			<div class="col-md-4 list-left text-center">
+				<span><img src="{% static "images/hakkimizda/icon1.png" %}" alt=" "/></span>
+				<h4>Başlık</h4>
+				<div class="multi-gd-text"><a href="#"><img class="img-responsive" src="{% static "images/hakkimizda/p5.jpg" %}" alt=" "/></a></div>
+				<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
+					sed quia consequuntur magni dolores eos qui</p>
+			</div>
+			<div class="col-md-4 list-left text-center">
+				<span><img src="{% static "images/hakkimizda/icon2.png" %}" alt=" "/></span>
+				<h4>Başlık</h4>
+				<div class="multi-gd-text"><a href="#"><img class="img-responsive" src="{% static "images/hakkimizda/p6.jpg" %}" alt=" "/></a></div>
+				<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
+					sed quia consequuntur magni dolores eos qui</p>
+			</div>
+			<div class="col-md-4 list-left text-center">
+				<span><img src="{% static "images/hakkimizda/icon3.png" %}" alt=" "/></span>
+				<h4>Başlık</h4>
+				<div class="multi-gd-text"><a href="#"><img class="img-responsive" src="{% static "images/hakkimizda/p7.jpg" %}" alt=" "/></a></div>
+				<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,
+					sed quia consequuntur magni dolores eos qui</p>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+<!-- //services -->
+
+<!-- care -->
+<div class="care_agileits">
+	<div class="container">
+		<div class="offer">
+			<h3>Offering the full spectrum of new treatments</h3>
+			<h4>Nemo enim ipsam voluptatem quia voluptas sit aspernatur</h4>
+			<ul>
+				<li>
+					<div class="offer-left w3-agile">
+						<div class="hi-icon-wrap hi-icon-effect-2 hi-icon-effect-2b">
+							<a href="#" class="hi-icon hi-icon-cog glyphicon glyphicon-education"></a>
+						</div>
+					</div>
+					<div class="offer-right agileits-w3layouts">
+						<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur
+						aut odit aut fugit, sed quia consequuntur magni dolores eos qui</p>
+					</div>
+					<div class="clearfix"></div>
+				</li>
+				<li>
+					<div class="offer-left w3-agileits">
+						<div class="hi-icon-wrap hi-icon-effect-2 hi-icon-effect-2b">
+							<a href="#" class="hi-icon hi-icon-cog glyphicon glyphicon-scissors"></a>
+						</div>
+					</div>
+					<div class="offer-right wthree">
+						<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur
+						aut odit aut fugit, sed quia consequuntur magni dolores eos qui</p>
+					</div>
+					<div class="clearfix"></div>
+				</li>
+				<li>
+					<div class="offer-left agileinfo">
+						<div class="hi-icon-wrap hi-icon-effect-2 hi-icon-effect-2b">
+							<a href="#" class="hi-icon hi-icon-cog glyphicon glyphicon-plus"></a>
+						</div>
+					</div>
+					<div class="offer-right agileits">
+						<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur
+						aut odit aut fugit, sed quia consequuntur magni dolores eos qui</p>
+					</div>
+					<div class="clearfix"></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- //care -->
+
+
+<div class="features_w3 agileits">
+	<div class="container">
+		<br><h3 class="title">Our Features</h3>
+		<div class="fea_grids w3ls">
+			<div class="col-md-6 fea_grid1">
+				<div class="col-sm-4 fea_left text-center w3ls">
+					<div class="ih-item circle effect1">
+						<a href="#">
+							<div class="spinner"></div>
+							<div class="img"><img src="{% static "images/hakkimizda/icon1.png" %}" alt="img"></div>
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-8 fea_right agileinfo">
+					<h4>Consequntur</h4>
+					<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur
+						aut odit aut fugit, sed quia consequuntur magni dolores eos qui</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="col-md-6 fea_grid2">
+				<div class="col-sm-8 fea_right fea_two w3-agileits">
+					<h4>Dignissimos</h4>
+					<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur
+						aut odit aut fugit, sed quia consequuntur magni dolores eos qui</p>
+				</div>
+				<div class="col-sm-4 fea_left fea_one text-center w3layouts">
+					<div class="ih-item circle effect1">
+						<a href="#">
+							<div class="spinner"></div>
+							<div class="img"><img src="{% static "images/hakkimizda/icon2.png" %}" alt="img"></div>
+						</a>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="col-md-6 fea_grid1 fea_bor w3-agileits">
+				<div class="col-sm-4 fea_left text-center">
+					<div class="ih-item circle effect1">
+						<a href="#">
+							<div class="spinner"></div>
+							<div class="img"><img src="{% static "images/hakkimizda/icon3.png" %}" alt="img"></div>
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-8 fea_right agileits-w3layouts">
+					<h4>Aspernatur</h4>
+					<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur
+						aut odit aut fugit, sed quia consequuntur magni dolores eos qui</p>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="col-md-6 fea_grid2 fea_bor w3">
+				<div class="col-sm-8 fea_right fea_one w3l">
+					<h4>Voluptatem</h4>
+					<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur
+						aut odit aut fugit, sed quia consequuntur magni dolores eos qui</p>
+				</div>
+				<div class="col-sm-4 fea_left fea_two text-center w3-agileits">
+					<div class="ih-item circle effect1">
+						<a href="#">
+							<div class="spinner"></div>
+							<div class="img"><img src="{% static "images/hakkimizda/icon4.png" %}" alt="img"></div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div><br>
+
+
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 footer-info">
+            <img src="{% static 'images/med.png' %}" alt="logo">
+            <p>Bu site insanların kan acil ihtiyaçları için online kan arama ve verme üzerine tasarlanmış bir sitedir.
+            </p>
+          </div>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Kullanışlı bağlantılar.</h4>
+            <ul>
+              <li><i class="fa fa-angle-right"></i> <a href="/home/">Ana Sayfa</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="/about/">Hakkımızda</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Kullanışlı bağlantılar.</h4>
+            <ul>
+              <li><i class="fa fa-angle-right"></i> <a href="/share/">Paylaşımda bulun</a></li>
+              <li><i class="fa fa-angle-right"></i> <a href="#">İletişim</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h4>İLETİŞİM BİLGİSİ</h4>
+            <p>
+              Sakarya Serdivan <br>
+              <strong>Telefon:</strong> +123456<br>
+              <strong>Email:</strong> örn@gmail.com<br>
+            </p>
+            <div class="social-links">
+              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>VLYVB|SDGA</strong>. Tüm Hakları Saklıdır
+      </div>
+      <div class="credits">
+        Tasarım <a href="#">VLYVB|SDGA</a>
+      </div>
+    </div>
+  </footer>
+
+<!--===============================================================================================-->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/wow.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/venobox.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/custom.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/mainy.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script><!--=popup-->
+<!--===============================================================================================-->
+  <script src="{% static 'js/main.js' %}"></script><!--video-->
+<!--===============================================================================================-->
+</body>
+</html>

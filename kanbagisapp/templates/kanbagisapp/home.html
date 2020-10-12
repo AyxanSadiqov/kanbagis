@@ -1,0 +1,649 @@
+{% load staticfiles %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  {% if user.is_authenticated %}
+  <title>Kan Bağışı | Ana Sayfa</title>
+  {% else %}
+  <title>Kan Bağışı | Ana Sayfa (Ziyaretçi)</title>
+  {% endif %}
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <link href="{% static 'images/kan_icon.png' %}" rel="icon">
+  <link href="{% static 'img/kan.png' %}" rel="apple-touch-icon">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/venobox.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/anastyle.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/loaderstyle.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/home-slide.css' %}">
+<!--===============================================================================================-->
+
+  <style>
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+      width: 100%;
+    }
+  }
+      ::selection {
+        color: white;
+        background: red;
+      }
+      .paylasim {
+  			width: 97%;
+  			margin-bottom: 10px;
+        margin-left: 10px;
+        padding:8px;
+        border: 1px solid black;
+        border-radius: 5px;
+      }
+      .paylasimKan {
+        width: 90px;
+        border: 1px solid black;
+        background-color: #DDE8FD;
+      }
+      .hover:hover{
+        background-color: #EDF1F1;
+      }
+      select{
+        width: 24%;
+        height: 30px;
+      }
+      option{
+        background-color: #f5f5f5;
+      }
+      .isa_error {
+        color: #D8000C;
+        background-color: #FFD2D2;
+  			width: 100%;
+  			margin-bottom: 10px;
+        padding:8px;
+        border-radius: 8px;
+      }
+  		.isa_success {
+        color: #4F8A10;
+        background-color: #DFF2BF;
+  			width: 100%;
+  			margin-bottom: 10px;
+        padding:8px;
+        border-radius: 8px;
+      }
+      /*page styling START*/
+      .bs-callout {
+          -moz-border-bottom-colors: none;
+          -moz-border-left-colors: none;
+          -moz-border-right-colors: none;
+          -moz-border-top-colors: none;
+          border-color: #eee;
+          border-image: none;
+          border-radius: 3px;
+          border-style: solid;
+          border-width: 1px 1px 1px 5px;
+          margin-bottom: 5px;
+          padding: 20px;
+      }
+      .bs-callout:last-child {
+          margin-bottom: 0px;
+      }
+      .bs-callout h4,
+      .bs-callout h5 {
+          margin-bottom: 10px;
+          margin-top: 0;
+          font-weight: 600;
+      }
+      .bs-callout-danger {
+          border-left-color: #d9534f;
+      }
+      .bs-callout-success {
+          border-left-color: #5DCF1F;
+      }
+      .bs-callout-danger h5{
+          color: #d9534f;
+      }
+      /*page styling END*/
+      .stable {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 129px;
+      }
+      .pagination {
+        display: inline-block;
+      }
+      .pagination a:hover:not(.active) {background-color: #ddd;}
+      .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+      }
+      .feedback button{
+        position: fixed;
+        width: 120px;
+        bottom: 0;
+        right: 15px;
+        background-color: #F42B2B;
+        color: white;
+        border: 2px solid #F42B2B;
+        border-radius: 5px 5px 0 0;
+        opacity: 0.8;
+        outline:none !important;
+      }
+      .feedback button:hover{
+        opacity: 1
+      }
+      .visitor{
+        position: fixed;
+        top: 50%;
+        left: 42%;
+        width: 200px;
+        background-color: #ECECEC;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        border: 1px solid;
+        border-color: #D1D1D1;
+        padding: 10px 16px;
+        opacity: 0.8;
+        z-index: 999;
+      }
+      .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+      }
+      /* Suggestions START */
+      * {
+        box-sizing: border-box;
+      }
+      .slider {
+        width: 290px;
+        text-align: center;
+        overflow: hidden;
+      }
+      .slides {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        /*
+        scroll-snap-points-x: repeat(300px);
+        scroll-snap-type: mandatory;
+        */
+      }
+      .slides::-webkit-scrollbar {
+        width: 10px;
+        height: 8px;
+      }
+      .slides::-webkit-scrollbar-thumb {
+        background: #0B0B0B;
+        border-radius: 5px;
+      }
+      .slides::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .slides > div {
+        scroll-snap-align: start;
+        flex-shrink: 0;
+        width: 290px;
+        height: 290px;
+        margin-right: 20px;
+        border-radius: 5px;
+        border-top-style: solid;
+        border-top-color: #F42B2B;
+        background: #E5E7E9;
+        transform: scale(1);
+        transition: transform 0.5s;
+        font-size: 14px;
+      }
+      /* Don't need button navigation */
+      @supports (scroll-snap-type) {
+        .slider > a {
+          display: none;
+        }
+      }
+      /* Suggestions END */
+      .SuggestionsButton {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 4px 8px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+      }
+      .SuggestionsButtonRed {
+        background-color: white;
+        color: black;
+        border: 2px solid #f44336;
+        outline:none !important;
+      }
+      .SuggestionsButtonRed:hover {
+        background-color: #f44336;
+        color: white;
+      }
+      .wordOverflow {
+        white-space: nowrap;
+        width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .button_outline{
+        outline:none !important;
+      }
+    </style>
+</head>
+<body>
+<!-- LOADER -->
+  <div id="preloader">
+  	<div class="preloader pulse">
+  		<i class="fa fa-heartbeat" aria-hidden="true"></i>
+  	</div>
+  </div>
+
+
+  <header id="header">
+    <div class="container">
+      <div id="logo" class="pull-left">
+        <a href="/home/" class="scrollto"><img src="{% static 'images/med.png' %}" ></a>
+      </div>
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="/home/">Ana Sayfa</a></li>
+          <li><a href="/about/">Hakkımızda</a></li>
+          <li><a href="/share/">Paylaşımda bulun</a></li>
+          {% if user.is_authenticated %}
+          <li class="buy-tickets"><a href="{% url 'profile' username=request.user %}">Profil</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <div class="container-fluid" style="margin-top: 10%">
+    <div class="row">
+      <div class="col-md-3" id="leftbox">
+        <div class="jumbotron">
+          <h4>Reklam Alanı</h4>
+          <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling
+              extra
+              attention to featured content or information.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6" id="middlebox">
+        <div class="well kayitTamamlandi">
+          {% if user.is_authenticated %}
+            <h5 style="padding-left:2%">Merhaba, {{ user|capfirst }}. Ana sayfa hakkında bilgi almak için <button onclick="typeWriter()">tıklayın</button></h5>
+            <h5 style="padding-left:2%" id="demo"></h5>
+          {% else %}
+            <h5 style="padding:2%">Merhaba Ziyaretçi - <a href="/register/">Kayıt Ol</a> yada <a href="/login/">Giriş Yap</a></h5>
+            <div class="visitor noselect" align="center">
+              <i class="fa fa-4x fa-user-secret"></i>
+              <br><b>ZİYARETÇİ</b>
+            </div>
+          {% endif %}
+        </div>
+        {% if messages %}
+        {% for messages in messages %}
+        <div class="isa_success" align=center>
+           <i class="fa fa-check"></i>
+           {{messages}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="panel panel-default">
+          <div class="panel-heading" align="center">
+            <select>
+               <option value ="" disabled selected hidden>Kan Al/Ver</option>
+               <option value ="ara">Arıyorum</option>
+               <option value ="ver">Veriyorum</option>
+            </select>
+            <select>
+               <option value ="" disabled selected hidden>Şehir/İl</option>
+               <option value ="Antalya">Antalya</option>
+               <option value ="Aydin">Aydin</option>
+               <option value ="Mugla">Mugla</option>
+               <option value ="Konya">Konya</option>
+               <option value ="Kayseri">Kayseri</option>
+               <option value ="Diyarbakir">Diyarbakir</option>
+               <option value ="Adana">Adana</option>
+               <option value ="Sakarya">Sakarya</option>
+            </select>
+            <select>
+               <option value ="" disabled selected hidden>Kan grubu</option>
+               <option value ="1">1</option>
+               <option value ="2">2</option>
+               <option value ="3">3</option>
+               <option value ="4">4</option>
+            </select>
+            <select>
+               <option value ="" disabled selected hidden>Tarih aralığı</option>
+               <option value ="bugun">Bugün</option>
+               <option value ="bir gun once">1 gün önce</option>
+               <option value ="iki gun once">2 gün önce</option>
+               <option value ="bir hafta once">1 hafta önce</option>
+              </select>
+          </div>
+
+          {% for bilgi in query_results %}
+          <div class="hover">
+            {% if bilgi.choice == "kan veriyor" %}
+            <div class="bs-callout bs-callout-success">
+            {% else %}
+            <div class="bs-callout bs-callout-danger">
+            {% endif %}
+              <div class="row">
+                <div class="col-md-3">
+                  {{ bilgi.user }}
+                </div>
+                <div class="col-md-3">
+                  {{ bilgi.province }}'da
+                </div>
+                <div class="col-md-3" style="pointer-events: none;" align="center">
+                    {% if bilgi.blood_group_id == 1 %}
+                      <img src="{% static 'images/home/ab+.png' %}" height="28" width="24">
+                    {% elif bilgi.blood_group_id == 2 %}
+                      <img src="{% static 'images/home/ab-.png' %}" height="28" width="24">
+                    {% elif bilgi.blood_group_id == 3 %}
+                      <img src="{% static 'images/home/a+.png' %}" height="28" width="24">
+                    {% elif bilgi.blood_group_id == 4 %}
+                      <img src="{% static 'images/home/a-.png' %}" height="28" width="24">
+                    {% elif bilgi.blood_group_id == 5 %}
+                      <img src="{% static 'images/home/b+.png' %}" height="28" width="24">
+                    {% elif bilgi.blood_group_id == 6 %}
+                      <img src="{% static 'images/home/b-.png' %}" height="28" width="24">
+                    {% elif bilgi.blood_group_id == 7 %}
+                      <img src="{% static 'images/home/o+.png' %}" height="28" width="24">
+                    {% elif bilgi.blood_group_id == 8 %}
+                      <img src="{% static 'images/home/o-.png' %}" height="28" width="24">
+                    {% endif %}
+                </div>
+                <div class="col-md-3">
+                {% if user.is_authenticated %}
+                &emsp;<a href="{% url 'icerik' id=bilgi.id %}">{{ bilgi.choice }}...</a>
+                {% else %}
+                &emsp;<a data-toggle="modal" data-target="#exampleModal" href="#">{{ bilgi.choice }}...</a>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h5 class="modal-title" id="exampleModalLabel">Bilgilendirme..</h5>
+                      </div>
+                      <div class="modal-body">
+                        İçeriğin tamamını görmek için giriş yapmanız gerek.
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                        <button type="button" class="btn btn-primary" onclick="location.href='/login/'">Giriş yap</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+            Henüz kimse paylaşımda bulunmadı...
+          {% endfor %}
+        </div>
+        <div align="center">
+          <div class="pagination">
+            {% if query_results.has_previous %}
+              <a href="?page={{ query_results.previous_page_number }}">&laquo; Önceki</a>
+            {% endif %}
+            <a>{{ query_results.number }} - {{ query_results.paginator.num_pages }}</a>
+            {% if query_results.has_next %}
+              <a href="?page={{ query_results.next_page_number }}">Sonraki &raquo;</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3" id="rightbox">
+        {% if user.is_authenticated %}
+          <div class="slideshow-container">
+            {% for right in homeRightInformation %}
+              {% if right.created_at|naturalday == "bugün" %}
+                <div class="mySlides">
+                  <q>{{ right.content }}</q>
+                  <p class="author">- {{ right.written_by }}</p>
+                </div>
+              {% elif right.created_at|naturalday != "bugün" %}
+                <div class="mySlides">
+                  <q></q>
+                  <p class="author">- </p>
+                </div>
+              {% endif %}
+            {% empty %}
+                <div class="mySlides">
+                  <q></q>
+                  <p class="author">- </p>
+                </div>
+            {% endfor %}
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+          </div>
+          <div class="dot-container"></div>
+        {% else %}
+          <div class="slideshow-container">
+            <div class="mySlides">
+              <q></q>
+              <p><a href="/register/">Kayıt Ol</a> yada <a href="/login/">Giriş Yap</a></p>
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+          </div>
+          <div class="dot-container"></div>
+        {% endif %}
+
+        <br><div align="center" style="color:#383838; font-size:11px;">SİZİN İÇİN ÖNERDİĞİMİZ KULLANICILAR</div>
+        <div class="slider">
+          <div class="slides">
+            {% if user.is_authenticated %}
+              {% if user.first_name and user.last_name %}
+                {% for oneri in oneriler %}
+                  {% if user.userprofile.blood_group == oneri.blood_group or user.userprofile.province == oneri.province or user.userprofile.county == oneri.county %}
+                    <div id="{{ oneri.id }}">
+                      <br><img src="{% static 'images/home/profile_pic.png' %}" style="pointer-events:none; width:70px; border-radius:50%;" alt="Profil fotoğrafı"><br><br>
+                      <div class="row">
+                        <div class="col-md-6" align="right">
+                            <label>Profil durumu:</label>
+                        </div>
+                        <div class="col-md-6" align="left">
+                            <meter value="1">100%</meter>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6" align="right">
+                            <label>Kullanıcı adı:</label>
+                        </div>
+                        <div class="col-md-6" align="left">
+                            <div class="wordOverflow">{{ oneri.user }}</div>
+                        </div>
+                      </div>
+                      {% if oneri.privacy != True %}
+                      <div class="row">
+                        <div class="col-md-6" align="right">
+                            <label>Kullanıcı profili:</label>
+                        </div>
+                        <div class="col-md-6" align="left">
+                            <span class="badge badge-pill badge-secondary">Açık</span>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6" align="right">
+                            <label>İl:</label>
+                        </div>
+                        <div class="col-md-6" align="left">
+                            {{ oneri.province }}
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6" align="right">
+                            <label>İlçe:</label>
+                        </div>
+                        <div class="col-md-6" align="left">
+                            {{ oneri.county }}
+                        </div>
+                      </div>
+                      {% else %}
+                      <div class="row">
+                        <div class="col-md-6" align="right">
+                            <label>Kullanıcı profili:</label>
+                        </div>
+                        <div class="col-md-6" align="left">
+                            <span class="badge badge-secondary">Gizli</span>
+                        </div>
+                      </div>
+                      {% endif %}
+                      <button onclick="location.href='/profile/{{ oneri.user }}/'" class="SuggestionsButton SuggestionsButtonRed">Profili görüntüle</button>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+              <div id="#">
+                <p style="margin-top:70px;">
+                  <i class="fa fa-4x fa-user-plus" aria-hidden="true"></i>
+                  <br>Acil kullanıcılar için öneriler aktif değil.
+                  <br>Profilinizi normal kullanıcıya yükseltmeniz lazım!
+                </p>
+              </div>
+              {% endif %}
+            {% else %}
+            <div id="#">
+              <p style="margin-top:70px;">
+                <i class="fa fa-4x fa-low-vision" aria-hidden="true"></i>
+                <br><br><u>Ayrıntılı bilgi için kayıt olmanız lazım.</u>
+              </p>
+            </div>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="feedback" align="center">
+          <button data-toggle="modal" data-target="#contact" style="font-size:15px;">Geri Bildirim <i class="fa fa-cogs"></i></button>
+        </div>
+        <!--Feedback START-->
+        <div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="contactLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="panel-title" id="contactLabel"><i class="fa fa-info-circle" aria-hidden="true"></i> Siteyi daha iyi hale getirebilmemiz için bize geri bildirim gönder.</h4>
+              </div>
+              <form method="POST" action="/home/">
+              {% csrf_token %}
+                <div class="modal-body" style="padding: 5px;">
+                  <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
+                          <input class="form-control" name="name" placeholder="Adınız.." type="text" required />
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                          <textarea style="resize:vertical;min-height:100px;max-height:270px;" class="form-control" placeholder="Mesajınız..." rows="6" name="message" required></textarea>
+                      </div>
+                  </div>
+                </div>
+                <div class="panel-footer" style="margin-bottom:-14px;">
+                  <input type="submit" class="btn btn-success button_outline" value="Gönder"/>
+                  <input type="reset" class="btn btn-danger button_outline" value="Temizle" />
+                  <button style="float: right;" type="button" class="btn btn-default btn-close button_outline" data-dismiss="modal">Kapat</button>
+                </div>
+              </form>
+              </div>
+            </div>
+          </div>
+          <!--Feedback END-->
+        </div>
+        <!--<section>
+          <div class="tabs">
+            <input id="tab1" type="radio" name="grp" checked="checked" />
+            <label for="tab1"><i class="fa fa-users"></i><span>Aktif<br>Olanlar</span></label>
+            <div style="height:100px;overflow-x:auto;">Aktif olan kullanicilar<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/</div>
+            <input id="tab2" type="radio" name="grp" />
+            <label for="tab2"><i class="fa fa-location-arrow"></i><span>Takip<br>ettiklerim</span></label>
+            <div style="height:100px;overflow:auto;">Takip ettiğim kullanıcılar<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/<br>/</div>
+          </div>
+        </section>-->
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+<!--===============================================================================================-->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/wow.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/venobox.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/custom.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/mainy.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script><!--=popup-->
+<!--===============================================================================================-->
+  <script src="{% static 'js/home-slide.js' %}"></script>
+<!--===============================================================================================-->
+  <!--home page Bilgilendirme-->
+  <script>
+    var i = 0;
+    var txt = 'Ana sayfa hakkında bilgilendirme yazısı görünecek.';
+    var speed = 50;
+    function typeWriter() {
+      if (i < txt.length) {
+        document.getElementById("demo").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+  </script>
+<!--===============================================================================================-->
+
+</body>
+</html>
+<!--
+          ********          ********
+        ************      ************
+      ******** *******  ****************
+     ******** * ********* ***************
+      ****** *** ******* * ***** *******
+        ********* ***** *** *** * ****
+         ********* *** ***** * ******  *
+           ******** * ******* *****   ***
+             ******* ************    *****
+               ***************        ***
+                  **********
+                    ******
+-->

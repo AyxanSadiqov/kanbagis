@@ -1,0 +1,300 @@
+{% load staticfiles %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kan Bağışı | Paylaşımda Bulun</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <link href="{% static 'images/kan_icon.png' %}" rel="icon">
+  <link href="{% static 'img/kan.png' %}" rel="apple-touch-icon">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/venobox.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/anastyle.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/loaderstyle.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/tabs.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/share.css' %}"><!--mumkun mertebe paylasim tasarimini degis ve bu css-i qaldir-->
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/home-slide.css' %}">
+<!--===============================================================================================-->
+  <style>
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+      width: 100%;
+    }
+  }
+    ::selection {
+      color: white;
+      background: red;
+    }
+    .isa_warning {
+      color: #4D5656;
+      background-color: #E5E7E9;
+			width: 100%;
+			margin-bottom: 10px;
+      padding:8px;
+      border-radius: 8px;
+    }
+    .button_outline{
+      outline:none !important;
+    }
+    acil{
+      color: white;
+      background-color: red;
+      border-radius: 5px;
+      padding: 3px;
+    }
+    .card{
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      border: 1px solid;
+      border-color: #D1D1D1;
+      padding: 10px 16px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<!-- LOADER -->
+  <div id="preloader">
+  	<div class="preloader pulse">
+  		<i class="fa fa-heartbeat" aria-hidden="true"></i>
+  	</div>
+  </div>
+
+
+  <header id="header">
+    <div class="container">
+      <div id="logo" class="pull-left">
+        <a href="/home/" class="scrollto"><img src="{% static 'images/med.png' %}" ></a>
+      </div>
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li><a href="/home/">Ana Sayfa</a></li>
+          <li><a href="/about/">Hakkımızda</a></li>
+          <li class="menu-active"><a href="/share/">Paylaşımda bulun</a></li>
+          {% if user.is_authenticated %}
+          <li class="buy-tickets"><a href="{% url 'profile' username=request.user %}">Profil</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container-fluid" style="margin-top: 10%">
+    <div class="row">
+      <div class="col-md-3" id="leftbox">
+        <div class="jumbotron">
+          <h4>Reklam Alanı</h4>
+          <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling
+              extra
+              attention to featured content or information.</p>
+        </div>
+      </div>
+
+
+      <div class="col-md-6" id="middlebox">
+        {% if user.is_authenticated %}
+        <div class="well kayitTamamlandi">
+          <h6 style="padding-left:2%; font-size:14px">Paylasimda bulunmak hakkinda bilgilendirme, kurallar kismi.</h6>
+          <h6 style="padding-left:2%; font-size:14px">Hesabınızı "Acil kayıt" ile oluşturduysanız kan bağışında bulunamazsınız.</h6>
+        </div><br>
+
+        <form method="POST" id="blood_shareForm" data-counties-url="{% url 'ajax_load_counties' %}" action="/share/">
+        {% csrf_token %}
+        <div class="card">
+            <div class="card-body">
+              <div class="form-row">
+                  <div class="name">Kan grubu</div>
+                  <div class="value">
+                      {{form.blood_group}}
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="name">İl</div>
+                  <div class="value">
+                      {{form.province}}
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="name">İlçe</div>
+                  <div class="value">
+                      {{form.county}}
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="name">Tarih aralığı</div>
+                  <div class="value">
+                      <input class="input--style-6" type="text" name="date_range" placeholder="12/12/2020 06:58:59">
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="name">Kan arama nedeni</div>
+                  <div class="value">
+                      <div class="input-group">
+                          <textarea class="textarea--style-6" name="searching_reason" placeholder="Kan arama nedeniniz.."></textarea>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="name">İletişim ismi</div>
+                  <div class="value">
+                      <input class="input--style-6" type="text" name="contact_name">
+                  </div>
+              </div>
+              <div class="form-row">
+                  <div class="name">İletişim numarası</div>
+                  <div class="value">
+                      <input class="input--style-6" type="text" name="contact_number">
+                  </div>
+              </div>
+              <div align="center">
+                <label>
+                  <input type="radio" class="option-input radio button_outline" name="choice" value="kan arıyor"/>
+                  Kan arıyorum
+                </label>
+                {% if not user.first_name %}
+                <label>
+                  <input type="radio" class="option-input radio button_outline" disabled name="choice" value="kan veriyor"/>
+                  <span style="color: #818182;" data-toggle="modal" data-target="#exampleModal">Kan veriyorum</span>
+                  <!--popup modal START-->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <h5 class="modal-title" id="exampleModalLabel">Bilgilendirme..</h5>
+                        </div>
+                        <div class="modal-body">
+                          <acil>Acil kayıt</acil> ile oluşturulmuş hesapla kan bağışında bulunamazsınız.
+                          <details>
+                            <summary class="button_outline">Acil kayıtın amaçlarını görmek için tıklayın.</summary>
+                            <li>ornekleme</li>
+                            <li>olabilir</li>
+                            <li>meselaa</li>
+                          </details>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Kapat</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--popup modal END-->
+                </label>
+                {% else %}
+                <label>
+                  <input type="radio" class="option-input radio button_outline" name="choice" value="kan veriyor"/>
+                  Kan veriyorum
+                </label>
+                {% endif %}
+              </div>
+            </div>
+          <div class="card-footer">
+              <br><button class="btn btn--radius-2 btn--blue-2 button_outline" type="submit">Paylaşımda bulun</button><br><br>
+          </div>
+        </div>
+        </form>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+          $("#id_province").change(function(){
+            var url = $("#blood_shareForm").attr("data-counties-url"); // get the url of the 'load_counties'view
+            var provinceId = $(this).val();   // get the selected province id from the HTML input
+            $.ajax({                          // initialize an AJAX request
+              url: url,                       // set the url of the request (http://127.0.0.1:8000/ajax/load/)
+              data: {
+                'province': provinceId        // add the province id to the GET parameters
+              },
+              success: function(data){        // 'data' is the return of the 'load_counties' view function
+                $("#id_county").html(data);   // replace the contents of the county input with the data that came
+              }
+            });
+          });
+        </script>
+        {% else %}
+        <div class="card" align="center">
+          <div class="card-header" style="background-color:white;">
+            <h5><i class="fa fa-3x fa-sign-in" aria-hidden="true"></i></h5>
+          </div>
+          <!--<div class="card-header">
+            <h5><i class="fa fa-warning"></i></h5>
+          </div>-->
+          <p>Siteye kayıt olmadan paylaşımda bulunamazsınız.</p>
+          <footer class="blockquote-footer"><a href="/register/">Kayıt Ol</a> yada <a href="/login/">Giriş Yap</a></footer>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-3" id="rightbox">
+        {% if user.is_authenticated %}
+          <div class="slideshow-container">
+            {% for right in homeRightInformation %}
+              {% if right.created_at|naturalday == "bugün" %}
+                <div class="mySlides">
+                  <q>{{ right.content }}</q>
+                  <p class="author">- {{ right.written_by }}</p>
+                </div>
+              {% elif right.created_at|naturalday != "bugün" %}
+                <div class="mySlides">
+                  <q></q>
+                  <p class="author">- </p>
+                </div>
+              {% endif %}
+            {% empty %}
+                <div class="mySlides">
+                  <q></q>
+                  <p class="author">- </p>
+                </div>
+            {% endfor %}
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+          </div>
+          <div class="dot-container"></div>
+        {% else %}
+          <div class="slideshow-container">
+            <div class="mySlides">
+              <q></q>
+              <p><a href="/register/">Kayıt Ol</a> yada <a href="/login/">Giriş Yap</a></p>
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+          </div>
+          <div class="dot-container"></div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!--===============================================================================================-->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/wow.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/venobox.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/custom.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'js/mainy.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script><!--=popup-->
+<!--===============================================================================================-->
+  <script src="{% static 'js/home-slide.js' %}"></script>
+<!--===============================================================================================-->
+</body>
+</html>
